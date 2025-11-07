@@ -24,9 +24,9 @@ export function Footer() {
               {categories.map((category) => (
                 <li key={category}>
                   <Link href={`/?category=${category.toLowerCase()}`}>
-                    <a className="text-muted-foreground hover:text-foreground transition-colors">
+                    <span className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
                       {category}
-                    </a>
+                    </span>
                   </Link>
                 </li>
               ))}

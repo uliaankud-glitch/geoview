@@ -45,12 +45,10 @@ export default function Post() {
       <article className="container mx-auto max-w-4xl px-4 -mt-32 relative z-10">
         <div className="mb-8">
           <Link href="/">
-            <a>
-              <Button variant="secondary" size="sm" className="mb-6 backdrop-blur-sm bg-background/80" data-testid="button-back">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Home
-              </Button>
-            </a>
+            <Button variant="secondary" size="sm" className="mb-6 backdrop-blur-sm bg-background/80" data-testid="button-back">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Home
+            </Button>
           </Link>
 
           <div className="mb-4 flex flex-wrap gap-2">

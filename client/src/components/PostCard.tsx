@@ -28,7 +28,7 @@ export function PostCard({
 }: PostCardProps) {
   return (
     <Link href={`/post/${id}`} data-testid={`link-post-${id}`}>
-      <a>
+      <div className="cursor-pointer">
         <Card className={`overflow-hidden hover-elevate transition-all ${featured ? 'h-full' : ''}`}>
           <div className={`aspect-video w-full overflow-hidden ${featured ? 'md:aspect-[21/9]' : ''}`}>
             <img
@@ -67,7 +67,7 @@ export function PostCard({
             </div>
           </div>
         </Card>
-      </a>
+      </div>
     </Link>
   );
 }
