@@ -54,6 +54,7 @@ export type TopicCategory = "environment" | "economics" | "sociology" | "psychol
 export interface Post {
   id: string;
   title: string;
+  shortName?: string; // Short version for network visualization
   excerpt: string;
   content: string;
   category: string;
@@ -76,6 +77,7 @@ export const posts: Post[] = [
   {
     id: "urban-inequality",
     title: "How satellite data reveals patterns of urban inequality",
+    shortName: "Urban Inequality",
     excerpt: "Using remote sensing technology to understand socioeconomic disparities in metropolitan areas through spatial analysis and machine learning.",
     content: `# How satellite data reveals patterns of urban inequality
 
@@ -215,6 +217,7 @@ As satellite technology continues to advance, our ability to monitor and address
   {
     id: "trade-routes",
     title: "Historical trade routes seen from orbit",
+    shortName: "Trade Routes",
     excerpt: "Ancient commercial pathways become visible through modern satellite analysis, revealing centuries-old patterns of human connection.",
     content: `# Historical trade routes seen from orbit
 
@@ -265,6 +268,7 @@ Trade routes weren't just paths—they were engines of economic and cultural exc
   {
     id: "climate-migration",
     title: "Climate data and economic migration patterns",
+    shortName: "Climate Migration",
     excerpt: "Analyzing the complex relationship between environmental change and human movement using geospatial data and economic indicators.",
     content: `# Climate data and economic migration patterns
 
@@ -317,6 +321,7 @@ Understanding these patterns helps governments and organizations:
   {
     id: "landscape-perception",
     title: "Remote sensing and the psychology of perception",
+    shortName: "Landscape Perception",
     excerpt: "How we 'see' landscapes from above reveals fascinating insights about human cognition, pattern recognition, and spatial understanding.",
     content: `# Remote sensing and the psychology of perception
 
