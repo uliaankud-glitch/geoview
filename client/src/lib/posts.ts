@@ -49,12 +49,15 @@ export interface SplitLensData {
   sections: SplitLensSection[];
 }
 
+export type TopicCategory = "environment" | "economics" | "sociology" | "psychology" | "history" | "technology";
+
 export interface Post {
   id: string;
   title: string;
   excerpt: string;
   content: string;
   category: string;
+  topicCategory?: TopicCategory;
   tags: string[];
   date: string;
   readTime: string;
@@ -126,6 +129,7 @@ These insights enable evidence-based urban planning and targeted interventions t
 
 As satellite technology continues to advance, our ability to monitor and address urban inequality will only improve. The combination of remote sensing and ground-truth data creates powerful tools for social change.`,
     category: "Geography",
+    topicCategory: "sociology",
     tags: ["Remote Sensing", "Urban Studies", "Data Science"],
     date: "Nov 5, 2025",
     readTime: "8 min read",
@@ -242,6 +246,7 @@ Combining historical records with satellite data creates a new understanding of:
 
 Trade routes weren't just paths—they were engines of economic and cultural exchange that shaped the modern world.`,
     category: "History",
+    topicCategory: "history",
     tags: ["Historical Geography", "Trade", "Archaeology"],
     date: "Oct 28, 2025",
     readTime: "6 min read",
@@ -299,6 +304,7 @@ Understanding these patterns helps governments and organizations:
 3. Create economic opportunities in vulnerable regions
 4. Plan infrastructure for population shifts`,
     category: "Economics",
+    topicCategory: "economics",
     tags: ["Climate Change", "Migration", "Economics"],
     date: "Oct 20, 2025",
     readTime: "7 min read",
@@ -355,6 +361,7 @@ Understanding perception helps us:
 - Create intuitive mapping interfaces
 - Communicate spatial information clearly`,
     category: "Psychology",
+    topicCategory: "psychology",
     tags: ["Perception", "Cognition", "Visual Analysis"],
     date: "Oct 12, 2025",
     readTime: "6 min read",
