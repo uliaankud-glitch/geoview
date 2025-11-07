@@ -115,26 +115,27 @@ export function TimelineView() {
   };
 
   return (
-    <div className="relative bg-white/0 dark:bg-slate-900/95">
-      {/* Layered gradient background */}
+    <div className="relative bg-slate-50 dark:bg-[#1A1A1A]">
+      {/* Subtle depth gradient overlay */}
       <div 
         className="absolute inset-0 pointer-events-none"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/50 to-slate-100/80 opacity-60 dark:opacity-0" />
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 opacity-0 dark:opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-100/40 via-transparent to-slate-200/30 dark:from-transparent dark:via-transparent dark:to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10 dark:to-black/20" />
       </div>
       
       {/* Floating date counter */}
       {activeYear && (
         <div 
-          className="fixed top-24 right-8 z-50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-md border border-slate-200 dark:border-slate-700 shadow-sm rounded-lg px-6 py-4"
+          className="fixed top-24 right-8 z-50 bg-white/95 dark:bg-[#222222] backdrop-blur-md border border-slate-200 dark:border-slate-700/50 rounded-lg px-6 py-4"
           style={{
-            animation: 'fadeIn 0.3s ease-in-out'
+            animation: 'fadeIn 0.3s ease-in-out',
+            boxShadow: 'none'
           }}
           data-testid="floating-date-counter"
         >
-          <div className="text-xs text-slate-600 dark:text-slate-400 mb-1 uppercase tracking-wider">Current Period</div>
-          <div className="text-3xl font-bold text-slate-900 dark:text-slate-100">{activeYear}</div>
+          <div className="text-xs text-slate-600 dark:text-[#9CA3AF] mb-1 uppercase tracking-wider">Current Period</div>
+          <div className="text-3xl font-bold text-slate-900 dark:text-[#F3F4F6]">{activeYear}</div>
         </div>
       )}
 
@@ -147,9 +148,18 @@ export function TimelineView() {
           >
             <defs>
               <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" style={{ stopColor: '#cbd5e1', stopOpacity: 0.3 }} />
-                <stop offset="100%" style={{ stopColor: '#334155', stopOpacity: 0.8 }} />
+                <stop offset="0%" style={{ stopColor: '#cbd5e1', stopOpacity: 0.3 }} className="dark:hidden" />
+                <stop offset="100%" style={{ stopColor: '#334155', stopOpacity: 0.8 }} className="dark:hidden" />
+                <stop offset="0%" style={{ stopColor: '#4B5563', stopOpacity: 0.4 }} className="hidden dark:inline" />
+                <stop offset="100%" style={{ stopColor: '#9CA3AF', stopOpacity: 0.6 }} className="hidden dark:inline" />
               </linearGradient>
+              <filter id="timelineGlow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
             </defs>
             <line
               x1="0"
@@ -159,6 +169,7 @@ export function TimelineView() {
               stroke="url(#timelineGradient)"
               strokeWidth="2"
               strokeDasharray="8,4"
+              filter="url(#timelineGlow)"
             />
           </svg>
 
@@ -184,21 +195,21 @@ export function TimelineView() {
                 <div className="flex flex-col items-center w-96" style={{ opacity: depthOpacity }}>
                   {/* Year node */}
                   <div 
-                    className="flex items-center justify-center w-20 h-20 rounded-full bg-white dark:bg-slate-800 border-2 z-10 transition-all duration-300"
+                    className="flex items-center justify-center w-20 h-20 rounded-full bg-white dark:bg-[#222222] border-2 z-10 transition-all duration-300"
                     style={{
                       borderColor: topicColor,
                       transform: activeYear === post.timePeriod?.start ? 'scale(1.15)' : 'scale(1)',
                       boxShadow: activeYear === post.timePeriod?.start 
-                        ? `0 0 20px ${topicColor}40` 
-                        : 'none'
+                        ? `0 0 24px ${topicColor}60, 0 0 12px ${topicColor}30` 
+                        : `0 0 8px ${topicColor}20`
                     }}
                   >
                     <div className="text-center">
-                      <div className="text-xs font-semibold text-slate-700 dark:text-slate-100">
+                      <div className="text-xs font-semibold text-slate-700 dark:text-[#E5E7EB]">
                         {post.timePeriod?.start}
                       </div>
                       {post.timePeriod?.end && (
-                        <div className="text-[10px] text-slate-600 dark:text-slate-300">
+                        <div className="text-[10px] text-slate-600 dark:text-[#9CA3AF]">
                           -{post.timePeriod.end}
                         </div>
                       )}
@@ -221,10 +232,11 @@ export function TimelineView() {
                   
                   <Link href={`/post/${post.id}`}>
                     <Card 
-                      className={`w-96 h-[480px] flex flex-col hover-elevate cursor-pointer overflow-hidden ${shadowStrength} transition-all duration-300 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm`}
+                      className={`w-96 h-[480px] flex flex-col hover-elevate cursor-pointer overflow-hidden transition-all duration-300 bg-white dark:bg-[#222222] border border-slate-200 dark:border-slate-700/30`}
                       data-testid={`timeline-post-${post.id}`}
                       style={{
                         borderTop: `2px solid ${topicColor}`,
+                        boxShadow: `0 4px 16px rgba(0, 0, 0, 0.1), 0 0 24px ${topicColor}15`
                       }}
                     >
                       {/* Category color strip */}
@@ -265,15 +277,15 @@ export function TimelineView() {
                           )}
                         </div>
 
-                        <h3 className="font-semibold mb-2 leading-tight text-base text-slate-900 dark:text-slate-100 line-clamp-2">
+                        <h3 className="font-semibold mb-2 leading-tight text-base text-slate-900 dark:text-[#F3F4F6] line-clamp-2">
                           {post.title}
                         </h3>
 
-                        <p className="text-sm mb-4 line-clamp-3 text-slate-600 dark:text-slate-300 flex-1">
+                        <p className="text-sm mb-4 line-clamp-3 text-slate-600 dark:text-[#D1D5DB] flex-1">
                           {post.excerpt}
                         </p>
 
-                        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mt-auto">
+                        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-[#9CA3AF] mt-auto">
                           {post.geoLocation && (
                             <div className="flex items-center gap-1">
                               <MapPin className="h-3 w-3" />
@@ -296,13 +308,23 @@ export function TimelineView() {
                     className="absolute top-12 left-full w-8 h-4 pointer-events-none"
                     style={{ zIndex: 5 }}
                   >
+                    <defs>
+                      <filter id={`connectorGlow-${index}`}>
+                        <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                        <feMerge>
+                          <feMergeNode in="coloredBlur"/>
+                          <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                      </filter>
+                    </defs>
                     <path
                       d="M 0 2 Q 16 2 32 2"
                       fill="none"
                       stroke={topicColor}
                       strokeWidth="2"
                       strokeDasharray="4,3"
-                      opacity="0.3"
+                      opacity="0.5"
+                      filter={`url(#connectorGlow-${index})`}
                     />
                   </svg>
                 )}
@@ -314,7 +336,11 @@ export function TimelineView() {
 
       {/* Mini overview bar */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20">
-        <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md border border-slate-200 dark:border-slate-700 shadow-sm rounded-full px-4 py-2 flex items-center gap-2">
+        <div className="bg-white/95 dark:bg-[#222222]/95 backdrop-blur-md border border-slate-200 dark:border-slate-700/50 rounded-full px-4 py-2 flex items-center gap-2"
+          style={{
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
+          }}
+        >
           {sortedPosts.map((post, index) => {
             const topicColor = post.topicCategory ? topicColors[post.topicCategory] : topicColors.technology;
             const isActive = activeYear === post.timePeriod?.start;
