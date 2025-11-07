@@ -3,6 +3,22 @@ import tradeImage from "@assets/generated_images/Trade_routes_from_orbit_19161c8
 import climateImage from "@assets/generated_images/Climate_migration_data_visualization_1368c937.png";
 import agricultureImage from "@assets/generated_images/Agricultural_landscape_perception_1f012b1e.png";
 
+export interface Reference {
+  id: number;
+  authors: string;
+  year: number;
+  title: string;
+  publication: string;
+  url?: string;
+}
+
+export interface FurtherReadingLink {
+  title: string;
+  description: string;
+  url: string;
+  type: "article" | "dataset" | "tool" | "course";
+}
+
 export interface Post {
   id: string;
   title: string;
@@ -14,6 +30,8 @@ export interface Post {
   readTime: string;
   image: string;
   author: string;
+  references?: Reference[];
+  furtherReading?: FurtherReadingLink[];
 }
 
 export const posts: Post[] = [
@@ -77,7 +95,58 @@ As satellite technology continues to advance, our ability to monitor and address
     date: "Nov 5, 2025",
     readTime: "8 min read",
     image: urbanImage,
-    author: "Dr. Sarah Chen"
+    author: "Dr. Sarah Chen",
+    references: [
+      {
+        id: 1,
+        authors: "Chen, L., & Martinez, R.",
+        year: 2024,
+        title: "Satellite-based assessment of urban heat islands and socioeconomic disparities",
+        publication: "Remote Sensing of Environment, 287, 113-128",
+        url: "https://example.com/paper1"
+      },
+      {
+        id: 2,
+        authors: "Johnson, M., Smith, K., & Lee, H.",
+        year: 2023,
+        title: "Machine learning approaches to urban inequality mapping",
+        publication: "International Journal of Geographic Information Science, 37(4), 892-915"
+      },
+      {
+        id: 3,
+        authors: "Williams, A.",
+        year: 2024,
+        title: "Green space distribution and environmental justice in metropolitan areas",
+        publication: "Urban Studies, 61(2), 234-251",
+        url: "https://example.com/paper3"
+      }
+    ],
+    furtherReading: [
+      {
+        title: "NASA's Urban Heat Island Effect Resources",
+        description: "Comprehensive guide to understanding and measuring urban heat islands using satellite data",
+        url: "https://earthobservatory.nasa.gov",
+        type: "article"
+      },
+      {
+        title: "Landsat Urban Analysis Toolkit",
+        description: "Tools and datasets for analyzing urban development patterns using Landsat imagery",
+        url: "https://earthexplorer.usgs.gov",
+        type: "dataset"
+      },
+      {
+        title: "QGIS Urban Planning Plugin",
+        description: "Open-source GIS tool with specialized features for urban analysis and planning",
+        url: "https://qgis.org",
+        type: "tool"
+      },
+      {
+        title: "Remote Sensing for Social Justice",
+        description: "Online course exploring how satellite data can reveal and address inequality",
+        url: "https://example.com/course",
+        type: "course"
+      }
+    ]
   },
   {
     id: "trade-routes",

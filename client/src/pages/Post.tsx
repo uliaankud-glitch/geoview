@@ -1,7 +1,7 @@
 import { useRoute, Link } from "wouter";
 import { getPostById } from "@/lib/posts";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock, ArrowLeft, MapPin } from "lucide-react";
+import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -10,6 +10,9 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { DataVisualization } from "@/components/DataVisualization";
 import { InteractiveMap } from "@/components/InteractiveMap";
+import { ReadingProgress } from "@/components/ReadingProgress";
+import { References } from "@/components/References";
+import { FurtherReading } from "@/components/FurtherReading";
 
 export default function Post() {
   const [, params] = useRoute("/post/:id");
@@ -33,6 +36,7 @@ export default function Post() {
 
   return (
     <div className="min-h-screen">
+      <ReadingProgress />
       <div className="relative h-[50vh] w-full overflow-hidden">
         <img
           src={post.image}
@@ -124,6 +128,14 @@ export default function Post() {
           <div className="my-16">
             <InteractiveMap postId={post.id} />
           </div>
+        )}
+
+        {post.references && post.references.length > 0 && (
+          <References references={post.references} />
+        )}
+
+        {post.furtherReading && post.furtherReading.length > 0 && (
+          <FurtherReading links={post.furtherReading} />
         )}
       </article>
     </div>
