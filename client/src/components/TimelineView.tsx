@@ -115,27 +115,25 @@ export function TimelineView() {
   };
 
   return (
-    <div className="relative">
-      {/* Layered gradient background */}
+    <div className="relative bg-white/0 dark:bg-white/95">
+      {/* Layered gradient background - white in dark mode */}
       <div 
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background: 'linear-gradient(135deg, hsl(0 0% 98%) 0%, hsl(215 25% 95%) 50%, hsl(215 30% 92%) 100%)',
-          opacity: 0.6
-        }}
-      />
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/50 to-slate-100/80 opacity-60 dark:opacity-0" />
+      </div>
       
       {/* Floating date counter */}
       {activeYear && (
         <div 
-          className="fixed top-24 right-8 z-50 bg-background/95 backdrop-blur-md border shadow-lg rounded-lg px-6 py-4"
+          className="fixed top-24 right-8 z-50 bg-white/95 dark:bg-white/95 backdrop-blur-md border shadow-lg rounded-lg px-6 py-4"
           style={{
             animation: 'fadeIn 0.3s ease-in-out'
           }}
           data-testid="floating-date-counter"
         >
-          <div className="text-xs text-muted-foreground mb-1 uppercase tracking-wider">Current Period</div>
-          <div className="text-3xl font-bold" style={{ color: '#111827' }}>{activeYear}</div>
+          <div className="text-xs text-slate-600 dark:text-slate-600 mb-1 uppercase tracking-wider">Current Period</div>
+          <div className="text-3xl font-bold text-slate-900 dark:text-slate-900">{activeYear}</div>
         </div>
       )}
 
@@ -185,7 +183,7 @@ export function TimelineView() {
                 <div className="flex flex-col items-center w-96" style={{ opacity: depthOpacity }}>
                   {/* Year node */}
                   <div 
-                    className="flex items-center justify-center w-20 h-20 rounded-full bg-background border-4 z-10 transition-all duration-300"
+                    className="flex items-center justify-center w-20 h-20 rounded-full bg-white dark:bg-white border-4 z-10 transition-all duration-300"
                     style={{
                       borderColor: topicColor,
                       transform: activeYear === post.timePeriod?.start ? 'scale(1.15)' : 'scale(1)',
@@ -195,11 +193,11 @@ export function TimelineView() {
                     }}
                   >
                     <div className="text-center">
-                      <div className="text-xs font-semibold" style={{ color: '#334155' }}>
+                      <div className="text-xs font-semibold text-slate-700 dark:text-slate-800">
                         {post.timePeriod?.start}
                       </div>
                       {post.timePeriod?.end && (
-                        <div className="text-[10px]" style={{ color: '#64748b' }}>
+                        <div className="text-[10px] text-slate-600 dark:text-slate-600">
                           -{post.timePeriod.end}
                         </div>
                       )}
@@ -222,7 +220,7 @@ export function TimelineView() {
                   
                   <Link href={`/post/${post.id}`}>
                     <Card 
-                      className={`w-96 hover-elevate cursor-pointer overflow-hidden ${shadowStrength} transition-all duration-300`}
+                      className={`w-96 hover-elevate cursor-pointer overflow-hidden ${shadowStrength} transition-all duration-300 bg-white dark:bg-white`}
                       data-testid={`timeline-post-${post.id}`}
                       style={{
                         borderTop: `4px solid ${topicColor}`,
@@ -260,21 +258,21 @@ export function TimelineView() {
                             {post.category}
                           </Badge>
                           {post.timePeriod && (
-                            <Badge variant="outline" className="text-xs" style={{ color: '#334155' }}>
+                            <Badge variant="outline" className="text-xs">
                               {post.timePeriod.era}
                             </Badge>
                           )}
                         </div>
 
-                        <h3 className="font-semibold mb-2 leading-tight text-base" style={{ color: '#111827' }}>
+                        <h3 className="font-semibold mb-2 leading-tight text-base text-slate-900 dark:text-slate-900">
                           {post.title}
                         </h3>
 
-                        <p className="text-sm mb-4 line-clamp-2" style={{ color: '#475569' }}>
+                        <p className="text-sm mb-4 line-clamp-2 text-slate-600 dark:text-slate-600">
                           {post.excerpt}
                         </p>
 
-                        <div className="flex items-center justify-between text-xs" style={{ color: '#64748b' }}>
+                        <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-500">
                           {post.geoLocation && (
                             <div className="flex items-center gap-1">
                               <MapPin className="h-3 w-3" />
@@ -315,7 +313,7 @@ export function TimelineView() {
 
       {/* Mini overview bar */}
       <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20">
-        <div className="bg-background/95 backdrop-blur-md border shadow-lg rounded-full px-4 py-2 flex items-center gap-2">
+        <div className="bg-white/95 dark:bg-white/95 backdrop-blur-md border shadow-lg rounded-full px-4 py-2 flex items-center gap-2">
           {sortedPosts.map((post, index) => {
             const topicColor = post.topicCategory ? topicColors[post.topicCategory] : topicColors.technology;
             const isActive = activeYear === post.timePeriod?.start;
