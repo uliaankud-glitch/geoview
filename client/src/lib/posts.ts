@@ -10,6 +10,7 @@ export interface Reference {
   title: string;
   publication: string;
   url?: string;
+  doi?: string;
 }
 
 export interface FurtherReadingLink {
@@ -103,14 +104,16 @@ As satellite technology continues to advance, our ability to monitor and address
         year: 2024,
         title: "Satellite-based assessment of urban heat islands and socioeconomic disparities",
         publication: "Remote Sensing of Environment, 287, 113-128",
-        url: "https://example.com/paper1"
+        url: "https://example.com/paper1",
+        doi: "10.1016/j.rse.2024.113128"
       },
       {
         id: 2,
         authors: "Johnson, M., Smith, K., & Lee, H.",
         year: 2023,
         title: "Machine learning approaches to urban inequality mapping",
-        publication: "International Journal of Geographic Information Science, 37(4), 892-915"
+        publication: "International Journal of Geographic Information Science, 37(4), 892-915",
+        doi: "10.1080/13658816.2023.892915"
       },
       {
         id: 3,
@@ -118,7 +121,8 @@ As satellite technology continues to advance, our ability to monitor and address
         year: 2024,
         title: "Green space distribution and environmental justice in metropolitan areas",
         publication: "Urban Studies, 61(2), 234-251",
-        url: "https://example.com/paper3"
+        url: "https://example.com/paper3",
+        doi: "10.1177/00420980241234251"
       }
     ],
     furtherReading: [

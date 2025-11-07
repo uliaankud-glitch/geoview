@@ -24,6 +24,11 @@ export function Header() {
               Home
             </span>
           </Link>
+          <Link href="/articles" data-testid="link-nav-articles">
+            <span className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+              Articles
+            </span>
+          </Link>
           <Link href="/data-stories" data-testid="link-nav-data-stories">
             <span className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
               Data Stories

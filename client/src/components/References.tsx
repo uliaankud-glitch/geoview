@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp, BookOpen } from "lucide-react";
+import { ChevronDown, ChevronUp, BookOpen, ExternalLink } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface Reference {
   id: number;
@@ -9,6 +10,7 @@ interface Reference {
   title: string;
   publication: string;
   url?: string;
+  doi?: string;
 }
 
 interface ReferencesProps {
@@ -46,25 +48,53 @@ export function References({ references }: ReferencesProps) {
       {isExpanded && (
         <div className="px-6 pb-6 border-t" data-testid="content-references">
           <div className="space-y-4 mt-4">
-            {references.map((ref) => (
-              <div key={ref.id} className="text-sm">
-                <p className="text-foreground">
-                  <span className="font-medium">{ref.authors}</span> ({ref.year}).{" "}
-                  {ref.url ? (
-                    <a
-                      href={ref.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary hover:underline"
-                    >
+            {references.map((ref, index) => (
+              <Card key={ref.id} className="p-4 hover-elevate">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center">
+                    <span className="text-sm font-semibold text-primary">{index + 1}</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm mb-2">
+                      <span className="font-medium text-foreground">{ref.authors}</span>
+                      <span className="text-muted-foreground"> ({ref.year})</span>
+                    </p>
+                    <p className="text-sm font-semibold mb-1 text-foreground">
                       {ref.title}
-                    </a>
-                  ) : (
-                    <span className="italic">{ref.title}</span>
-                  )}
-                  . <span className="text-muted-foreground">{ref.publication}</span>
-                </p>
-              </div>
+                    </p>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {ref.publication}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {ref.url && (
+                        <a
+                          href={ref.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex"
+                        >
+                          <Badge variant="outline" className="gap-1">
+                            <ExternalLink className="h-3 w-3" />
+                            View Article
+                          </Badge>
+                        </a>
+                      )}
+                      {ref.doi && (
+                        <a
+                          href={`https://doi.org/${ref.doi}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex"
+                        >
+                          <Badge variant="outline" className="gap-1">
+                            DOI: {ref.doi}
+                          </Badge>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Card>
             ))}
           </div>
         </div>
