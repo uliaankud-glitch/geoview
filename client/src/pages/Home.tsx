@@ -1,10 +1,11 @@
 import { Link } from "wouter";
 import { Hero } from "@/components/Hero";
 import { PostCard } from "@/components/PostCard";
+import { GeoMap } from "@/components/GeoMap";
 import { posts } from "@/lib/posts";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Globe2, TrendingUp, MapPin, ArrowRight } from "lucide-react";
+import { Globe2, TrendingUp, MapPin, ArrowRight, Map } from "lucide-react";
 
 export default function Home() {
   const featuredPosts = posts.slice(0, 3);
@@ -54,6 +55,19 @@ export default function Home() {
             </p>
           </Card>
         </div>
+
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <Map className="h-6 w-6 text-primary" />
+            <h2 className="text-3xl font-bold">Explore by Location</h2>
+          </div>
+          <p className="text-muted-foreground mb-6">
+            Click on any marker to discover articles geotagged to that location
+          </p>
+          <GeoMap />
+        </div>
+
+        <div className="my-16 border-t" />
 
         <div className="mb-8 flex items-center justify-between">
           <h2 className="text-3xl font-bold">Suggested Articles</h2>

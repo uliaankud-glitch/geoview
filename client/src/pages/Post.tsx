@@ -13,6 +13,8 @@ import { InteractiveMap } from "@/components/InteractiveMap";
 import { ReadingProgress } from "@/components/ReadingProgress";
 import { References } from "@/components/References";
 import { FurtherReading } from "@/components/FurtherReading";
+import { ThenNowSwipe } from "@/components/ThenNowSwipe";
+import { SplitLensExplorer } from "@/components/SplitLensExplorer";
 
 export default function Post() {
   const [, params] = useRoute("/post/:id");
@@ -128,6 +130,14 @@ export default function Post() {
           <div className="my-16">
             <InteractiveMap postId={post.id} />
           </div>
+        )}
+
+        {post.beforeAfter && (
+          <ThenNowSwipe data={post.beforeAfter} />
+        )}
+
+        {post.splitLens && (
+          <SplitLensExplorer postId={post.id} />
         )}
 
         {post.references && post.references.length > 0 && (
