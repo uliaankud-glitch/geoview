@@ -224,19 +224,13 @@ export function TimelineView() {
                   
                   <Link href={`/post/${post.id}`}>
                     <Card 
-                      className={`w-96 h-[480px] flex flex-col hover-elevate cursor-pointer overflow-hidden transition-all duration-300 bg-white dark:bg-[#222222] border border-slate-200 dark:border-slate-700/30`}
+                      className="w-96 h-[480px] flex flex-col hover-elevate cursor-pointer overflow-hidden transition-all duration-300 bg-white dark:bg-[#222222] border-0 border-t-4"
                       data-testid={`timeline-post-${post.id}`}
                       style={{
-                        borderTop: `2px solid ${topicColor}`,
+                        borderTopColor: topicColor,
                         boxShadow: `0 4px 16px rgba(0, 0, 0, 0.1), 0 0 24px ${topicColor}15`
                       }}
                     >
-                      {/* Category color strip */}
-                      <div 
-                        className="h-1 w-full" 
-                        style={{ backgroundColor: topicColor }}
-                      />
-
                       <div className="h-40 w-full overflow-hidden relative flex-shrink-0">
                         <img
                           src={post.image}

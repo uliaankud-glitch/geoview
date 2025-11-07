@@ -35,16 +35,16 @@ export function PostCard({
   
   return (
     <Link href={`/post/${id}`} data-testid={`link-post-${id}`}>
-      <div className="cursor-pointer">
+      <div className="cursor-pointer h-full">
         <Card 
-          className={`overflow-hidden hover-elevate transition-all border-t-4 ${featured ? 'h-full' : ''}`}
+          className="overflow-hidden hover-elevate transition-all border-0 border-t-4 h-full flex flex-col"
           style={{
             borderTopColor: categoryColor,
             boxShadow: `0 4px 12px rgba(0, 0, 0, 0.08), 0 0 20px ${categoryColor}10`
           }}
           data-testid={`card-post-${id}`}
         >
-          <div className={`aspect-video w-full overflow-hidden ${featured ? 'md:aspect-[21/9]' : ''}`}>
+          <div className="aspect-video w-full overflow-hidden flex-shrink-0">
             <img
               src={image}
               alt={title}
@@ -52,7 +52,7 @@ export function PostCard({
               data-testid={`img-post-${id}`}
             />
           </div>
-          <div className="p-6">
+          <div className="p-6 flex-1 flex flex-col">
             <div className="mb-3 flex items-center gap-2">
               <Badge 
                 variant="secondary" 
@@ -72,13 +72,13 @@ export function PostCard({
                 </Badge>
               ))}
             </div>
-            <h3 className={`mb-3 font-semibold leading-tight ${featured ? 'text-2xl md:text-3xl' : 'text-xl'}`} data-testid={`text-title-${id}`}>
+            <h3 className="mb-3 font-semibold leading-tight text-xl" data-testid={`text-title-${id}`}>
               {title}
             </h3>
-            <p className={`mb-4 text-muted-foreground ${featured ? 'text-base md:text-lg' : 'text-sm'}`} data-testid={`text-excerpt-${id}`}>
+            <p className="mb-4 text-muted-foreground text-sm flex-1" data-testid={`text-excerpt-${id}`}>
               {excerpt}
             </p>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <div className="flex items-center gap-4 text-xs text-muted-foreground mt-auto">
               <div className="flex items-center gap-1">
                 <Calendar className="h-3 w-3" />
                 <span>{date}</span>
