@@ -20,6 +20,35 @@ export interface FurtherReadingLink {
   type: "article" | "dataset" | "tool" | "course";
 }
 
+export interface GeoLocation {
+  lat: number;
+  lng: number;
+  name: string;
+}
+
+export interface TimePeriod {
+  start: number;
+  end?: number;
+  era: string;
+}
+
+export interface BeforeAfter {
+  before: string;
+  after: string;
+  beforeLabel: string;
+  afterLabel: string;
+}
+
+export interface SplitLensData {
+  sections: {
+    text: string;
+    visualization: {
+      type: "map" | "chart" | "image";
+      data: any;
+    };
+  }[];
+}
+
 export interface Post {
   id: string;
   title: string;
@@ -33,6 +62,11 @@ export interface Post {
   author: string;
   references?: Reference[];
   furtherReading?: FurtherReadingLink[];
+  geoLocation?: GeoLocation;
+  timePeriod?: TimePeriod;
+  relatedPosts?: string[];
+  beforeAfter?: BeforeAfter;
+  splitLens?: boolean;
 }
 
 export const posts: Post[] = [
@@ -97,6 +131,10 @@ As satellite technology continues to advance, our ability to monitor and address
     readTime: "8 min read",
     image: urbanImage,
     author: "Dr. Sarah Chen",
+    geoLocation: { lat: 40.7128, lng: -74.0060, name: "New York City, USA" },
+    timePeriod: { start: 2020, end: 2025, era: "Modern Era" },
+    relatedPosts: ["trade-routes", "climate-migration"],
+    splitLens: true,
     references: [
       {
         id: 1,
@@ -190,7 +228,16 @@ Trade routes weren't just paths—they were engines of economic and cultural exc
     date: "Oct 28, 2025",
     readTime: "6 min read",
     image: tradeImage,
-    author: "Prof. Michael Torres"
+    author: "Prof. Michael Torres",
+    geoLocation: { lat: 41.9028, lng: 12.4964, name: "Rome, Italy" },
+    timePeriod: { start: 130, end: 1453, era: "Ancient to Medieval" },
+    relatedPosts: ["urban-inequality"],
+    beforeAfter: {
+      before: tradeImage,
+      after: urbanImage,
+      beforeLabel: "Historical Trade Routes (130 BCE)",
+      afterLabel: "Modern Trade Networks (2025)"
+    }
   },
   {
     id: "climate-migration",
@@ -238,7 +285,10 @@ Understanding these patterns helps governments and organizations:
     date: "Oct 20, 2025",
     readTime: "7 min read",
     image: climateImage,
-    author: "Dr. Elena Rodriguez"
+    author: "Dr. Elena Rodriguez",
+    geoLocation: { lat: 15.8700, lng: 100.9925, name: "Southeast Asia" },
+    timePeriod: { start: 2000, end: 2025, era: "Modern Era" },
+    relatedPosts: ["urban-inequality", "landscape-perception"]
   },
   {
     id: "landscape-perception",
@@ -291,7 +341,10 @@ Understanding perception helps us:
     date: "Oct 12, 2025",
     readTime: "6 min read",
     image: agricultureImage,
-    author: "Dr. James Park"
+    author: "Dr. James Park",
+    geoLocation: { lat: 51.5074, lng: -0.1278, name: "London, UK" },
+    timePeriod: { start: 2015, end: 2025, era: "Modern Era" },
+    relatedPosts: ["climate-migration"]
   }
 ];
 
