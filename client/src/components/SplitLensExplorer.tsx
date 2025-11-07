@@ -1,47 +1,31 @@
 import { useEffect, useState, useRef } from "react";
-import { DataVisualization } from "./DataVisualization";
+import { DynamicVisualization } from "./DynamicVisualization";
 import { Card } from "@/components/ui/card";
+import { SplitLensData } from "@/lib/posts";
 
 interface SplitLensExplorerProps {
-  postId: string;
+  data: SplitLensData;
 }
 
-export function SplitLensExplorer({ postId }: SplitLensExplorerProps) {
+export function SplitLensExplorer({ data }: SplitLensExplorerProps) {
   const [activeSection, setActiveSection] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const sections = [
-    {
-      id: 0,
-      title: "Temperature Anomalies",
-      text: "Global temperature data shows a clear warming trend over the past century.",
-      visualization: "chart"
-    },
-    {
-      id: 1,
-      title: "Urban Growth Patterns",
-      text: "Satellite imagery reveals rapid urbanization in developing regions.",
-      visualization: "chart"
-    },
-    {
-      id: 2,
-      title: "Geographic Distribution",
-      text: "The spatial distribution of these phenomena follows predictable patterns.",
-      visualization: "chart"
-    }
-  ];
+  if (!data.sections || data.sections.length === 0) {
+    return null;
+  }
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!contentRef.current) return;
+      if (!contentRef.current || data.sections.length === 0) return;
 
       const scrollTop = contentRef.current.scrollTop;
       const scrollHeight = contentRef.current.scrollHeight - contentRef.current.clientHeight;
-      const scrollPercent = scrollTop / scrollHeight;
+      const scrollPercent = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
       
       const newSection = Math.min(
-        Math.floor(scrollPercent * sections.length),
-        sections.length - 1
+        Math.floor(scrollPercent * data.sections.length),
+        data.sections.length - 1
       );
       
       if (newSection !== activeSection) {
@@ -54,7 +38,7 @@ export function SplitLensExplorer({ postId }: SplitLensExplorerProps) {
       content.addEventListener('scroll', handleScroll);
       return () => content.removeEventListener('scroll', handleScroll);
     }
-  }, [activeSection, sections.length]);
+  }, [activeSection, data.sections.length]);
 
   return (
     <div className="grid md:grid-cols-2 gap-4 my-12 h-[600px]">
@@ -64,9 +48,9 @@ export function SplitLensExplorer({ postId }: SplitLensExplorerProps) {
           <p className="text-sm text-muted-foreground">Scroll to explore the data story</p>
         </div>
         <div ref={contentRef} className="h-[500px] overflow-y-auto p-6 space-y-96">
-          {sections.map((section, index) => (
+          {data.sections.map((section, index) => (
             <div
-              key={section.id}
+              key={index}
               className={`transition-opacity duration-300 ${
                 index === activeSection ? 'opacity-100' : 'opacity-40'
               }`}
@@ -82,11 +66,11 @@ export function SplitLensExplorer({ postId }: SplitLensExplorerProps) {
         <div className="p-6 border-b bg-primary/5">
           <h3 className="text-xl font-semibold">Visualization</h3>
           <p className="text-sm text-muted-foreground">
-            Section {activeSection + 1} of {sections.length}
+            Section {activeSection + 1} of {data.sections.length}: {data.sections[activeSection].title}
           </p>
         </div>
         <div className="p-6">
-          <DataVisualization postId={postId} />
+          <DynamicVisualization type={data.sections[activeSection].visualizationType} />
         </div>
       </Card>
     </div>

@@ -21,7 +21,7 @@ export function ThenNowSwipe({ data }: ThenNowSwipeProps) {
           rightImage={data.after}
           leftImageLabel={data.beforeLabel}
           rightImageLabel={data.afterLabel}
-          sliderLineColor="#hsl(var(--primary))"
+          sliderLineColor="hsl(var(--primary))"
         />
       </div>
       <div className="p-4 bg-muted/50 grid grid-cols-2 gap-4 text-sm">

@@ -137,7 +137,7 @@ export default function Post() {
         )}
 
         {post.splitLens && (
-          <SplitLensExplorer postId={post.id} />
+          <SplitLensExplorer data={post.splitLens} />
         )}
 
         {post.references && post.references.length > 0 && (

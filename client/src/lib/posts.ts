@@ -39,14 +39,14 @@ export interface BeforeAfter {
   afterLabel: string;
 }
 
+export interface SplitLensSection {
+  title: string;
+  text: string;
+  visualizationType: "temperatureChart" | "migrationChart" | "urbanGrowth";
+}
+
 export interface SplitLensData {
-  sections: {
-    text: string;
-    visualization: {
-      type: "map" | "chart" | "image";
-      data: any;
-    };
-  }[];
+  sections: SplitLensSection[];
 }
 
 export interface Post {
@@ -66,7 +66,7 @@ export interface Post {
   timePeriod?: TimePeriod;
   relatedPosts?: string[];
   beforeAfter?: BeforeAfter;
-  splitLens?: boolean;
+  splitLens?: SplitLensData;
 }
 
 export const posts: Post[] = [
@@ -134,7 +134,25 @@ As satellite technology continues to advance, our ability to monitor and address
     geoLocation: { lat: 40.7128, lng: -74.0060, name: "New York City, USA" },
     timePeriod: { start: 2020, end: 2025, era: "Modern Era" },
     relatedPosts: ["trade-routes", "climate-migration"],
-    splitLens: true,
+    splitLens: {
+      sections: [
+        {
+          title: "Heat Distribution Patterns",
+          text: "Satellite thermal imaging reveals stark temperature differences across urban areas. Wealthier neighborhoods with abundant tree cover show temperatures 5-7°C cooler than densely built areas with minimal green space.",
+          visualizationType: "temperatureChart"
+        },
+        {
+          title: "Green Space Inequality",
+          text: "Analysis of vegetation indices from Landsat imagery shows a direct correlation between median income and tree canopy coverage. Areas with higher income levels have 40% more green space per capita.",
+          visualizationType: "urbanGrowth"
+        },
+        {
+          title: "Economic Impact",
+          text: "The urban heat island effect in low-income areas leads to higher energy costs for cooling and increased health risks. Remote sensing data helps quantify these disparities and guide urban planning interventions.",
+          visualizationType: "migrationChart"
+        }
+      ]
+    },
     references: [
       {
         id: 1,
