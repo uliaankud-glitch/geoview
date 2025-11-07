@@ -5,16 +5,7 @@ import { posts, TopicCategory } from "@/lib/posts";
 import { useLocation } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Layers } from "lucide-react";
-
-// Modern gradient color palette matching knowledge network
-const topicColors: Record<TopicCategory, { main: string; glow: string; label: string }> = {
-  environment: { main: "#14b8a6", glow: "rgba(20, 184, 166, 0.4)", label: "Geography" },
-  economics: { main: "#06b6d4", glow: "rgba(6, 182, 212, 0.4)", label: "Economics" },
-  sociology: { main: "#ec4899", glow: "rgba(236, 72, 153, 0.4)", label: "Society" },
-  psychology: { main: "#a855f7", glow: "rgba(168, 85, 247, 0.4)", label: "Psychology" },
-  history: { main: "#f59e0b", glow: "rgba(245, 158, 11, 0.4)", label: "History" },
-  technology: { main: "#64748b", glow: "rgba(100, 116, 139, 0.4)", label: "Tech" }
-};
+import { getCategoryMetadata, categoryMetadata } from "@/lib/categoryConfig";
 
 export function GeoMap() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -185,7 +176,8 @@ export function GeoMap() {
     posts.filter(post => post.geoLocation).forEach(post => {
       if (post.geoLocation) {
         const topic = post.topicCategory || "technology";
-        const colors = topicColors[topic];
+        const categoryMeta = getCategoryMetadata(topic);
+        const colors = { main: categoryMeta.mainColor, glow: categoryMeta.glowColor, label: categoryMeta.label };
 
         const customIcon = L.divIcon({
           className: 'custom-marker-wrapper',
@@ -321,26 +313,33 @@ export function GeoMap() {
               </button>
             </div>
             <div className="space-y-2">
-              {Object.entries(topicColors).map(([topic, config]) => {
+              {Object.entries(categoryMetadata).map(([topic, config]) => {
                 const isActive = activeFilters.size === 0 || activeFilters.has(topic as TopicCategory);
                 return (
                   <button
                     key={topic}
                     onClick={() => toggleFilter(topic as TopicCategory)}
-                    className={`flex items-center gap-3 w-full text-left p-2 rounded-md transition-all ${
-                      isActive ? 'bg-accent/50' : 'opacity-50 hover:opacity-75'
+                    className={`flex items-center gap-3 w-full text-left p-2 rounded-md transition-all hover-elevate ${
+                      isActive ? '' : 'opacity-50'
                     }`}
+                    style={{
+                      backgroundColor: isActive ? `${config.mainColor}15` : 'transparent',
+                      borderLeft: `3px solid ${config.mainColor}`
+                    }}
                     data-testid={`filter-topic-${topic}`}
                   >
-                    <div className="relative">
+                    <div className="relative flex-shrink-0">
                       <div
-                        className="w-3 h-3 rounded-full"
-                        style={{ background: config.main }}
+                        className="w-4 h-4 rounded-full"
+                        style={{ 
+                          background: config.mainColor,
+                          boxShadow: `0 0 8px ${config.glowColor}`
+                        }}
                       />
                       {isActive && (
                         <div
-                          className="absolute inset-0 w-3 h-3 rounded-full animate-pulse"
-                          style={{ background: config.glow }}
+                          className="absolute inset-0 w-4 h-4 rounded-full animate-pulse"
+                          style={{ background: config.glowColor }}
                         />
                       )}
                     </div>

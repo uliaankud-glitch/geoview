@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import ForceGraph2D from "react-force-graph-2d";
-import { posts } from "@/lib/posts";
+import { posts, TopicCategory } from "@/lib/posts";
 import { useLocation } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
+import { getCategoryGradient, getCategoryLabel } from "@/lib/categoryConfig";
 
 interface GraphNode {
   id: string;
   name: string;
   category: string;
+  topicCategory: TopicCategory;
   val: number;
   connections: number;
   x?: number;
@@ -56,6 +58,7 @@ export function CognitiveMap() {
       id: post.id,
       name: post.shortName || post.title, // Use short name for network display
       category: post.category,
+      topicCategory: post.topicCategory || "technology",
       val: 10 + (connectionCounts[post.id] * 5),
       connections: connectionCounts[post.id] || 0
     })),
@@ -68,21 +71,8 @@ export function CognitiveMap() {
     )
   };
 
-  // Modern gradient color palette - teal, amber, violet, gray
-  const getCategoryGradient = (category: string): [string, string] => {
-    const gradients: Record<string, [string, string]> = {
-      Geography: ['#14b8a6', '#0d9488'],    // Teal gradient
-      History: ['#f59e0b', '#d97706'],       // Amber gradient
-      Economics: ['#06b6d4', '#0891b2'],     // Cyan gradient
-      Psychology: ['#a855f7', '#9333ea'],    // Violet gradient
-      Society: ['#ec4899', '#db2777'],       // Pink gradient
-      Tech: ['#64748b', '#475569']           // Gray gradient
-    };
-    return gradients[category] || ['#64748b', '#475569'];
-  };
-
-  const getNodeColor = (category: string): string => {
-    return getCategoryGradient(category)[0];
+  const getNodeColor = (topicCategory: TopicCategory): string => {
+    return getCategoryGradient(topicCategory)[0];
   };
 
   const drawGlowingNode = (node: GraphNode, ctx: CanvasRenderingContext2D, globalScale: number, isHovered: boolean, isDimmed: boolean) => {
@@ -91,7 +81,7 @@ export function CognitiveMap() {
       return;
     }
     
-    const [color1, color2] = getCategoryGradient(node.category);
+    const [color1, color2] = getCategoryGradient(node.topicCategory);
     const baseRadius = 5 + (node.connections * 1.5);
     const radius = isHovered ? baseRadius * 1.3 : baseRadius;
     const opacity = isDimmed ? 0.25 : 1;
@@ -274,18 +264,19 @@ export function CognitiveMap() {
         {/* Category legend */}
         <div className="p-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
           <div className="flex flex-wrap gap-3 text-xs">
-            {['Geography', 'History', 'Economics', 'Psychology', 'Society', 'Tech'].map(cat => {
-              const [color1] = getCategoryGradient(cat);
+            {(['environment', 'history', 'economics', 'psychology', 'sociology', 'technology'] as TopicCategory[]).map(topicCat => {
+              const [color1, color2] = getCategoryGradient(topicCat);
+              const label = getCategoryLabel(topicCat);
               return (
-                <div key={cat} className="flex items-center gap-2">
+                <div key={topicCat} className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full"
                     style={{
-                      background: `radial-gradient(circle at 30% 30%, ${color1}, ${getCategoryGradient(cat)[1]})`,
+                      background: `radial-gradient(circle at 30% 30%, ${color1}, ${color2})`,
                       boxShadow: `0 0 8px ${color1}40`
                     }}
                   />
-                  <span className="text-slate-600 dark:text-slate-400">{cat}</span>
+                  <span className="text-slate-600 dark:text-slate-400">{label}</span>
                 </div>
               );
             })}
@@ -314,8 +305,8 @@ export function CognitiveMap() {
                     variant="secondary" 
                     className="text-xs"
                     style={{
-                      backgroundColor: `${getNodeColor(hoveredNode.category)}20`,
-                      color: getNodeColor(hoveredNode.category)
+                      backgroundColor: `${getNodeColor(hoveredNode.topicCategory)}20`,
+                      color: getNodeColor(hoveredNode.topicCategory)
                     }}
                   >
                     {hoveredNode.category}

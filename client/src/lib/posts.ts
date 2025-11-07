@@ -131,7 +131,7 @@ These insights enable evidence-based urban planning and targeted interventions t
 
 As satellite technology continues to advance, our ability to monitor and address urban inequality will only improve. The combination of remote sensing and ground-truth data creates powerful tools for social change.`,
     category: "Geography",
-    topicCategory: "sociology",
+    topicCategory: "environment",
     tags: ["Remote Sensing", "Urban Studies", "Data Science"],
     date: "Nov 5, 2025",
     readTime: "8 min read",

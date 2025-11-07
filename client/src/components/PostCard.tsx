@@ -2,12 +2,15 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock } from "lucide-react";
 import { Link } from "wouter";
+import { TopicCategory } from "@/lib/posts";
+import { getCategoryMetadata } from "@/lib/categoryConfig";
 
 interface PostCardProps {
   id: string;
   title: string;
   excerpt: string;
   category: string;
+  topicCategory?: TopicCategory;
   date: string;
   readTime: string;
   image: string;
@@ -15,28 +18,20 @@ interface PostCardProps {
   featured?: boolean;
 }
 
-// Modern gradient color palette matching knowledge network
-const categoryColors: Record<string, string> = {
-  Geography: "#14b8a6",    // Teal
-  History: "#f59e0b",      // Amber
-  Economics: "#06b6d4",    // Cyan
-  Psychology: "#a855f7",   // Violet
-  Society: "#ec4899",      // Pink
-  Tech: "#64748b"          // Gray
-};
-
 export function PostCard({
   id,
   title,
   excerpt,
   category,
+  topicCategory,
   date,
   readTime,
   image,
   tags = [],
   featured = false,
 }: PostCardProps) {
-  const categoryColor = categoryColors[category] || categoryColors.Tech;
+  const categoryMeta = topicCategory ? getCategoryMetadata(topicCategory) : getCategoryMetadata("technology");
+  const categoryColor = categoryMeta.mainColor;
   
   return (
     <Link href={`/post/${id}`} data-testid={`link-post-${id}`}>

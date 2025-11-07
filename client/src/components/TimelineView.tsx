@@ -1,19 +1,10 @@
-import { posts, TopicCategory } from "@/lib/posts";
+import { posts } from "@/lib/posts";
 import { Link } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, MapPin, TrendingUp } from "lucide-react";
 import { useEffect, useRef, useState, useMemo } from "react";
-
-// Modern gradient color palette matching knowledge network
-const topicColors: Record<TopicCategory, string> = {
-  environment: "#14b8a6",  // Teal (Geography)
-  economics: "#06b6d4",    // Cyan (Economics)
-  sociology: "#ec4899",    // Pink (Society)
-  psychology: "#a855f7",   // Violet (Psychology)
-  history: "#f59e0b",      // Amber (History)
-  technology: "#64748b"    // Gray (Tech)
-};
+import { getCategoryColor, getCategoryMetadata } from "@/lib/categoryConfig";
 
 const sparklineCache = new Map<string, number[]>();
 
@@ -175,7 +166,7 @@ export function TimelineView() {
           </svg>
 
           {sortedPosts.map((post, index) => {
-            const topicColor = post.topicCategory ? topicColors[post.topicCategory] : topicColors.technology;
+            const topicColor = post.topicCategory ? getCategoryColor(post.topicCategory) : getCategoryColor("technology");
             const isOlder = index < sortedPosts.length / 2;
             const depthOpacity = isOlder ? 0.7 : 1;
             const shadowStrength = isOlder ? 'shadow-sm' : 'shadow-lg';
@@ -343,7 +334,7 @@ export function TimelineView() {
           }}
         >
           {sortedPosts.map((post, index) => {
-            const topicColor = post.topicCategory ? topicColors[post.topicCategory] : topicColors.technology;
+            const topicColor = post.topicCategory ? getCategoryColor(post.topicCategory) : getCategoryColor("technology");
             const isActive = activeYear === post.timePeriod?.start;
             
             return (
