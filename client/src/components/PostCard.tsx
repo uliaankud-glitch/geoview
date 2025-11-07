@@ -15,6 +15,16 @@ interface PostCardProps {
   featured?: boolean;
 }
 
+// Modern gradient color palette matching knowledge network
+const categoryColors: Record<string, string> = {
+  Geography: "#14b8a6",    // Teal
+  History: "#f59e0b",      // Amber
+  Economics: "#06b6d4",    // Cyan
+  Psychology: "#a855f7",   // Violet
+  Society: "#ec4899",      // Pink
+  Tech: "#64748b"          // Gray
+};
+
 export function PostCard({
   id,
   title,
@@ -26,10 +36,19 @@ export function PostCard({
   tags = [],
   featured = false,
 }: PostCardProps) {
+  const categoryColor = categoryColors[category] || categoryColors.Tech;
+  
   return (
     <Link href={`/post/${id}`} data-testid={`link-post-${id}`}>
       <div className="cursor-pointer">
-        <Card className={`overflow-hidden hover-elevate transition-all ${featured ? 'h-full' : ''}`}>
+        <Card 
+          className={`overflow-hidden hover-elevate transition-all ${featured ? 'h-full' : ''}`}
+          style={{
+            borderTop: `2px solid ${categoryColor}`,
+            boxShadow: `0 4px 12px rgba(0, 0, 0, 0.08), 0 0 20px ${categoryColor}10`
+          }}
+        >
+          <div className={`h-1 w-full`} style={{ backgroundColor: categoryColor }} />
           <div className={`aspect-video w-full overflow-hidden ${featured ? 'md:aspect-[21/9]' : ''}`}>
             <img
               src={image}
@@ -40,7 +59,16 @@ export function PostCard({
           </div>
           <div className="p-6">
             <div className="mb-3 flex items-center gap-2">
-              <Badge variant="secondary" className="text-xs" data-testid={`badge-category-${id}`}>
+              <Badge 
+                variant="secondary" 
+                className="text-xs" 
+                data-testid={`badge-category-${id}`}
+                style={{
+                  backgroundColor: `${categoryColor}15`,
+                  color: categoryColor,
+                  borderColor: `${categoryColor}30`
+                }}
+              >
                 {category}
               </Badge>
               {tags.slice(0, 2).map((tag) => (
