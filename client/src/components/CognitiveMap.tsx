@@ -54,7 +54,7 @@ export function CognitiveMap() {
   const graphData: GraphData = {
     nodes: posts.map(post => ({
       id: post.id,
-      name: post.title,
+      name: post.shortName || post.title, // Use short name for network display
       category: post.category,
       val: 10 + (connectionCounts[post.id] * 5),
       connections: connectionCounts[post.id] || 0
@@ -143,9 +143,9 @@ export function CognitiveMap() {
 
     ctx.globalAlpha = 1;
 
-    // Label
+    // Label - reduced font size
     if (globalScale > 0.8 || isHovered) {
-      const fontSize = Math.max(10, 11 / globalScale);
+      const fontSize = Math.max(8, 9 / globalScale); // Reduced from 10/11 to 8/9
       ctx.font = `500 ${fontSize}px 'Inter', sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -158,13 +158,9 @@ export function CognitiveMap() {
         ctx.shadowOffsetY = 1;
       }
       
-      const maxLength = isHovered ? 40 : 25;
-      const label = node.name.length > maxLength 
-        ? node.name.substring(0, maxLength) + '...' 
-        : node.name;
-      
+      // Use short name, no truncation needed
       ctx.fillStyle = isDimmed ? '#94a3b8' : '#e2e8f0';
-      ctx.fillText(label, node.x!, node.y! + radius + 12);
+      ctx.fillText(node.name, node.x!, node.y! + radius + 10); // Reduced offset from 12 to 10
       
       ctx.shadowColor = 'transparent';
       ctx.shadowBlur = 0;
@@ -311,7 +307,7 @@ export function CognitiveMap() {
             <div className="flex items-start gap-3">
               <div className="flex-1">
                 <h4 className="font-semibold text-sm mb-2 leading-tight text-slate-900 dark:text-slate-100">
-                  {hoveredNode.name}
+                  {posts.find(p => p.id === hoveredNode.id)?.title || hoveredNode.name}
                 </h4>
                 <div className="flex items-center gap-2 mb-2">
                   <Badge 
