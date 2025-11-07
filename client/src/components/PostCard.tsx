@@ -37,13 +37,13 @@ export function PostCard({
     <Link href={`/post/${id}`} data-testid={`link-post-${id}`}>
       <div className="cursor-pointer">
         <Card 
-          className={`overflow-hidden hover-elevate transition-all ${featured ? 'h-full' : ''}`}
+          className={`overflow-hidden hover-elevate transition-all border-t-4 ${featured ? 'h-full' : ''}`}
           style={{
-            borderTop: `2px solid ${categoryColor}`,
+            borderTopColor: categoryColor,
             boxShadow: `0 4px 12px rgba(0, 0, 0, 0.08), 0 0 20px ${categoryColor}10`
           }}
+          data-testid={`card-post-${id}`}
         >
-          <div className={`h-1 w-full`} style={{ backgroundColor: categoryColor }} />
           <div className={`aspect-video w-full overflow-hidden ${featured ? 'md:aspect-[21/9]' : ''}`}>
             <img
               src={image}
