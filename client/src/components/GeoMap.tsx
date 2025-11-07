@@ -6,13 +6,14 @@ import { useLocation } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Layers } from "lucide-react";
 
+// Modern gradient color palette matching knowledge network
 const topicColors: Record<TopicCategory, { main: string; glow: string; label: string }> = {
-  environment: { main: "#10b981", glow: "rgba(16, 185, 129, 0.4)", label: "Environment" },
-  economics: { main: "#f59e0b", glow: "rgba(245, 158, 11, 0.4)", label: "Economics" },
-  sociology: { main: "#8b5cf6", glow: "rgba(139, 92, 246, 0.4)", label: "Sociology" },
-  psychology: { main: "#ec4899", glow: "rgba(236, 72, 153, 0.4)", label: "Psychology" },
-  history: { main: "#6366f1", glow: "rgba(99, 102, 241, 0.4)", label: "History" },
-  technology: { main: "#06b6d4", glow: "rgba(6, 182, 212, 0.4)", label: "Technology" }
+  environment: { main: "#14b8a6", glow: "rgba(20, 184, 166, 0.4)", label: "Geography" },
+  economics: { main: "#06b6d4", glow: "rgba(6, 182, 212, 0.4)", label: "Economics" },
+  sociology: { main: "#ec4899", glow: "rgba(236, 72, 153, 0.4)", label: "Society" },
+  psychology: { main: "#a855f7", glow: "rgba(168, 85, 247, 0.4)", label: "Psychology" },
+  history: { main: "#f59e0b", glow: "rgba(245, 158, 11, 0.4)", label: "History" },
+  technology: { main: "#64748b", glow: "rgba(100, 116, 139, 0.4)", label: "Technology" }
 };
 
 export function GeoMap() {
