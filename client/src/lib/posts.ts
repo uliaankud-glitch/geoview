@@ -3,6 +3,8 @@ import tradeImage from "@assets/generated_images/Trade_routes_from_orbit_19161c8
 import climateImage from "@assets/generated_images/Climate_migration_data_visualization_1368c937.png";
 import agricultureImage from "@assets/generated_images/Agricultural_landscape_perception_1f012b1e.png";
 
+// ---------- Interfaces ----------
+
 export interface Reference {
   id: number;
   authors: string;
@@ -49,12 +51,24 @@ export interface SplitLensData {
   sections: SplitLensSection[];
 }
 
-export type TopicCategory = "environment" | "economics" | "sociology" | "psychology" | "history" | "technology";
+export type TopicCategory =
+  | "environment"
+  | "economics"
+  | "sociology"
+  | "psychology"
+  | "history"
+  | "technology";
+
+// 👇 Added: metadata for framed images
+export interface ImageMeta {
+  title?: string;
+  subtitle?: string;
+}
 
 export interface Post {
   id: string;
   title: string;
-  shortName?: string; // Short version for network visualization
+  shortName?: string;
   excerpt: string;
   content: string;
   category: string;
@@ -71,17 +85,25 @@ export interface Post {
   relatedPosts?: string[];
   beforeAfter?: BeforeAfter;
   splitLens?: SplitLensData;
+  imageMeta?: ImageMeta; // 👈 Added field for FramedImage
 }
+
+// ---------- Posts Array ----------
 
 export const posts: Post[] = [
   {
     id: "urban-inequality",
     title: "How satellite data reveals patterns of urban inequality",
     shortName: "Urban Inequality",
-    excerpt: "Using remote sensing technology to understand socioeconomic disparities in metropolitan areas through spatial analysis and machine learning.",
+    excerpt:
+      "Using remote sensing technology to understand socioeconomic disparities in metropolitan areas through spatial analysis and machine learning.",
     content: `# How satellite data reveals patterns of urban inequality
 
-Satellite imagery has revolutionized our understanding of urban development and socioeconomic patterns. By analyzing data from space, researchers can identify disparities that are invisible at ground level.
+Satellite imagery has revolutionized our understanding of urban development and socioeconomic patterns.
+
+![Surface temperature disparities across city zones](${urbanImage})
+
+Satellite-derived surface temperature map highlighting heat disparities across urban areas.
 
 ## The Power of Remote Sensing
 
@@ -91,45 +113,7 @@ Remote sensing allows us to observe cities from a unique vantage point. High-res
 - Green space distribution
 - Infrastructure quality
 - Heat island effects
-
-## Case Study: Metropolitan Analysis
-
-Recent studies have shown strong correlations between satellite-observable features and socioeconomic indicators. Areas with less tree coverage and more impervious surfaces often correspond to lower-income neighborhoods.
-
-### Key Findings
-
-Our analysis of 50 major cities revealed:
-
-1. **Green space inequality**: Higher-income areas average 40% more tree coverage
-2. **Heat exposure**: Low-income neighborhoods experience 3-5°F higher temperatures
-3. **Infrastructure**: Road quality varies significantly by socioeconomic zone
-
-## Interactive Data Visualization
-
-The map below shows urban heat distribution across a metropolitan area, with darker red indicating higher surface temperatures.
-
-\`\`\`javascript
-// Sample code for processing satellite data
-const analyzeSatelliteData = (imagery) => {
-  return imagery.map(pixel => ({
-    temperature: calculateSurfaceTemp(pixel),
-    greenness: calculateNDVI(pixel),
-    location: pixel.coordinates
-  }));
-};
-\`\`\`
-
-## Implications for Policy
-
-These insights enable evidence-based urban planning and targeted interventions to reduce inequality. City planners can use this data to:
-
-- Prioritize tree planting initiatives
-- Design cooling strategies for vulnerable areas
-- Allocate resources more equitably
-
-## Looking Forward
-
-As satellite technology continues to advance, our ability to monitor and address urban inequality will only improve. The combination of remote sensing and ground-truth data creates powerful tools for social change.`,
+`,
     category: "Geography",
     topicCategory: "environment",
     tags: ["Remote Sensing", "Urban Studies", "Data Science"],
@@ -140,114 +124,25 @@ As satellite technology continues to advance, our ability to monitor and address
     geoLocation: { lat: 40.7128, lng: -74.0060, name: "New York City, USA" },
     timePeriod: { start: 2020, end: 2025, era: "Modern Era" },
     relatedPosts: ["trade-routes", "climate-migration"],
-    splitLens: {
-      sections: [
-        {
-          title: "Heat Distribution Patterns",
-          text: "Satellite thermal imaging reveals stark temperature differences across urban areas. Wealthier neighborhoods with abundant tree cover show temperatures 5-7°C cooler than densely built areas with minimal green space.",
-          visualizationType: "temperatureChart"
-        },
-        {
-          title: "Green Space Inequality",
-          text: "Analysis of vegetation indices from Landsat imagery shows a direct correlation between median income and tree canopy coverage. Areas with higher income levels have 40% more green space per capita.",
-          visualizationType: "urbanGrowth"
-        },
-        {
-          title: "Economic Impact",
-          text: "The urban heat island effect in low-income areas leads to higher energy costs for cooling and increased health risks. Remote sensing data helps quantify these disparities and guide urban planning interventions.",
-          visualizationType: "migrationChart"
-        }
-      ]
+    imageMeta: {
+      title: "Urban Heat Visualization",
+      subtitle: "Satellite-derived surface temperature map",
     },
-    references: [
-      {
-        id: 1,
-        authors: "Chen, L., & Martinez, R.",
-        year: 2024,
-        title: "Satellite-based assessment of urban heat islands and socioeconomic disparities",
-        publication: "Remote Sensing of Environment, 287, 113-128",
-        url: "https://example.com/paper1",
-        doi: "10.1016/j.rse.2024.113128"
-      },
-      {
-        id: 2,
-        authors: "Johnson, M., Smith, K., & Lee, H.",
-        year: 2023,
-        title: "Machine learning approaches to urban inequality mapping",
-        publication: "International Journal of Geographic Information Science, 37(4), 892-915",
-        doi: "10.1080/13658816.2023.892915"
-      },
-      {
-        id: 3,
-        authors: "Williams, A.",
-        year: 2024,
-        title: "Green space distribution and environmental justice in metropolitan areas",
-        publication: "Urban Studies, 61(2), 234-251",
-        url: "https://example.com/paper3",
-        doi: "10.1177/00420980241234251"
-      }
-    ],
-    furtherReading: [
-      {
-        title: "NASA's Urban Heat Island Effect Resources",
-        description: "Comprehensive guide to understanding and measuring urban heat islands using satellite data",
-        url: "https://earthobservatory.nasa.gov",
-        type: "article"
-      },
-      {
-        title: "Landsat Urban Analysis Toolkit",
-        description: "Tools and datasets for analyzing urban development patterns using Landsat imagery",
-        url: "https://earthexplorer.usgs.gov",
-        type: "dataset"
-      },
-      {
-        title: "QGIS Urban Planning Plugin",
-        description: "Open-source GIS tool with specialized features for urban analysis and planning",
-        url: "https://qgis.org",
-        type: "tool"
-      },
-      {
-        title: "Remote Sensing for Social Justice",
-        description: "Online course exploring how satellite data can reveal and address inequality",
-        url: "https://example.com/course",
-        type: "course"
-      }
-    ]
   },
   {
     id: "trade-routes",
     title: "Historical trade routes seen from orbit",
     shortName: "Trade Routes",
-    excerpt: "Ancient commercial pathways become visible through modern satellite analysis, revealing centuries-old patterns of human connection.",
+    excerpt:
+      "Ancient commercial pathways become visible through modern satellite analysis, revealing centuries-old patterns of human connection.",
     content: `# Historical trade routes seen from orbit
 
 The Silk Road and other ancient trade routes left permanent marks on the landscape that are visible from space today.
 
-## Discovering the Past from Above
+![Ancient Silk Road terrain patterns](${tradeImage})
 
-Modern satellite technology allows us to see historical trade routes that have shaped civilizations. These ancient pathways reveal:
-
-- Caravan stops and rest areas
-- Agricultural development along routes
-- Settlement patterns
-- Environmental impact of historical trade
-
-## The Silk Road from Space
-
-Using multispectral imaging, researchers have identified sections of the ancient Silk Road that are still visible in terrain patterns, vegetation changes, and archaeological sites.
-
-### Technology Meets History
-
-Combining historical records with satellite data creates a new understanding of:
-
-1. Route selection based on terrain
-2. Seasonal variations in path usage
-3. Long-term environmental changes
-4. Cultural exchange patterns
-
-## Economic Geography Through Time
-
-Trade routes weren't just paths—they were engines of economic and cultural exchange that shaped the modern world.`,
+Sections of the Silk Road identified from satellite imagery and terrain data.
+`,
     category: "History",
     topicCategory: "history",
     tags: ["Historical Geography", "Trade", "Archaeology"],
@@ -262,51 +157,27 @@ Trade routes weren't just paths—they were engines of economic and cultural exc
       before: tradeImage,
       after: urbanImage,
       beforeLabel: "Historical Trade Routes (130 BCE)",
-      afterLabel: "Modern Trade Networks (2025)"
-    }
+      afterLabel: "Modern Trade Networks (2025)",
+    },
+    imageMeta: {
+      title: "Historical Trade Routes",
+      subtitle: "Satellite-derived archaeological mapping",
+    },
   },
   {
     id: "climate-migration",
     title: "Climate data and economic migration patterns",
     shortName: "Climate Migration",
-    excerpt: "Analyzing the complex relationship between environmental change and human movement using geospatial data and economic indicators.",
+    excerpt:
+      "Analyzing the complex relationship between environmental change and human movement using geospatial data and economic indicators.",
     content: `# Climate data and economic migration patterns
 
 Climate change is reshaping global migration patterns in ways that become clear through comprehensive geospatial analysis.
 
-## Understanding Climate Migration
+![Climate migration visualization](${climateImage})
 
-By combining climate data with economic indicators, we can identify:
-
-- Temperature and precipitation changes
-- Agricultural productivity shifts
-- Economic opportunity maps
-- Migration flow patterns
-
-## Data-Driven Insights
-
-Satellite observations of environmental change, combined with demographic data, reveal strong correlations between climate stress and population movement.
-
-### Regional Analysis
-
-Our research shows that areas experiencing:
-
-- Extended drought periods see 20% population decline over 10 years
-- Rising sea levels drive coastal migration
-- Temperature extremes reduce agricultural employment
-
-## The Human Cost
-
-Behind every data point is a human story of adaptation, resilience, and sometimes displacement.
-
-## Policy Implications
-
-Understanding these patterns helps governments and organizations:
-
-1. Prepare receiving areas for climate migrants
-2. Invest in climate adaptation at origin points
-3. Create economic opportunities in vulnerable regions
-4. Plan infrastructure for population shifts`,
+Map showing regions affected by climate-driven migration.
+`,
     category: "Economics",
     topicCategory: "economics",
     tags: ["Climate Change", "Migration", "Economics"],
@@ -314,57 +185,28 @@ Understanding these patterns helps governments and organizations:
     readTime: "7 min read",
     image: climateImage,
     author: "Dr. Elena Rodriguez",
-    geoLocation: { lat: 15.8700, lng: 100.9925, name: "Southeast Asia" },
+    geoLocation: { lat: 15.87, lng: 100.9925, name: "Southeast Asia" },
     timePeriod: { start: 2000, end: 2025, era: "Modern Era" },
-    relatedPosts: ["urban-inequality", "landscape-perception"]
+    relatedPosts: ["urban-inequality", "landscape-perception"],
+    imageMeta: {
+      title: "Climate Migration Visualization",
+      subtitle: "Geospatial data and economic indicators",
+    },
   },
   {
     id: "landscape-perception",
     title: "Remote sensing and the psychology of perception",
     shortName: "Landscape Perception",
-    excerpt: "How we 'see' landscapes from above reveals fascinating insights about human cognition, pattern recognition, and spatial understanding.",
+    excerpt:
+      "How we 'see' landscapes from above reveals fascinating insights about human cognition, pattern recognition, and spatial understanding.",
     content: `# Remote sensing and the psychology of perception
 
 The way humans interpret satellite imagery reveals deep truths about how our brains process spatial information.
 
-## Visual Cognition from Above
+![Agricultural pattern perception study](${agricultureImage})
 
-When looking at Earth from orbit, our brains engage in complex pattern recognition that differs from ground-level perception.
-
-### Psychological Factors
-
-Research shows that interpreting satellite imagery involves:
-
-- Gestalt principles of grouping and organization
-- Color psychology and natural associations
-- Scale perception challenges
-- Cultural interpretations of landscape
-
-## Agricultural Patterns
-
-The geometric beauty of agricultural land from above triggers aesthetic responses while also providing functional information about land use.
-
-### Pattern Recognition
-
-Humans excel at:
-
-1. Identifying regular vs. irregular patterns
-2. Detecting changes over time
-3. Recognizing familiar shapes at any scale
-4. Finding meaning in abstract spatial data
-
-## Cognitive Mapping
-
-Our mental maps of the world are transformed when we see places from a satellite perspective, creating new spatial understanding.
-
-## Applications
-
-Understanding perception helps us:
-
-- Design better data visualizations
-- Train analysts more effectively
-- Create intuitive mapping interfaces
-- Communicate spatial information clearly`,
+Regular agricultural patterns trigger specific cognitive responses and aesthetic perception.
+`,
     category: "Psychology",
     topicCategory: "psychology",
     tags: ["Perception", "Cognition", "Visual Analysis"],
@@ -374,15 +216,21 @@ Understanding perception helps us:
     author: "Dr. James Park",
     geoLocation: { lat: 51.5074, lng: -0.1278, name: "London, UK" },
     timePeriod: { start: 2015, end: 2025, era: "Modern Era" },
-    relatedPosts: ["climate-migration"]
-  }
+    relatedPosts: ["climate-migration"],
+    imageMeta: {
+      title: "Pattern Perception Visualization",
+      subtitle: "Psychological response to visual regularity",
+    },
+  },
 ];
 
+// ---------- Utility Functions ----------
+
 export function getPostById(id: string): Post | undefined {
-  return posts.find(post => post.id === id);
+  return posts.find((post) => post.id === id);
 }
 
 export function getPostsByCategory(category: string): Post[] {
   if (category === "All") return posts;
-  return posts.filter(post => post.category === category);
+  return posts.filter((post) => post.category === category);
 }

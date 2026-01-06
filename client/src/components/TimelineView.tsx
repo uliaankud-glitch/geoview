@@ -1,4 +1,3 @@
-import { posts } from "@/lib/posts";
 import { Link } from "wouter";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -49,15 +48,24 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
   );
 }
 
-export function TimelineView() {
+interface TimelineViewProps {
+  posts: typeof import("@/lib/posts").posts;
+}
+
+export function TimelineView({ posts }: TimelineViewProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeYear, setActiveYear] = useState<number | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const cardRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
-  const sortedPosts = [...posts]
-    .filter(post => post.timePeriod)
-    .sort((a, b) => (a.timePeriod?.start || 0) - (b.timePeriod?.start || 0));
+  const sortedPosts = useMemo(
+    () =>
+      [...posts]
+        .filter((post) => post.timePeriod)
+        .sort((a, b) => (a.timePeriod?.start || 0) - (b.timePeriod?.start || 0)),
+    [posts]
+  );
+
 
   const timelineYears = sortedPosts.map(p => p.timePeriod?.start || 0);
   const minYear = Math.min(...timelineYears);

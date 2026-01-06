@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "wouter";
 import { posts } from "@/lib/posts";
 import { PostCard } from "@/components/PostCard";
 import { Badge } from "@/components/ui/badge";
@@ -7,19 +8,30 @@ import { TimelineView } from "@/components/TimelineView";
 import { CognitiveMap } from "@/components/CognitiveMap";
 import { Library, Grid3x3, Clock, Network } from "lucide-react";
 
-const categories = ["All", "Geography", "History", "Society", "Economics", "Psychology", "Tech"];
+// Dynamically build categories from posts to avoid mismatches
+const allCategories = ["All", ...Array.from(new Set(posts.map((p) => p.category)))];
+
 type ViewMode = "grid" | "timeline" | "network";
 
 export default function Articles() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [location] = useLocation();
 
-  const filteredPosts = selectedCategory === "All"
-    ? posts
-    : posts.filter(post => post.category === selectedCategory);
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [location]);
+
+  // Apply category filter
+  const filteredPosts =
+    selectedCategory === "All"
+      ? posts
+      : posts.filter((post) => post.category === selectedCategory);
 
   return (
     <div className="min-h-screen">
+      {/* Header Section */}
       <div className="bg-gradient-to-b from-muted/50 to-background py-16">
         <div className="container mx-auto max-w-7xl px-4">
           <div className="flex items-center gap-3 mb-4">
@@ -27,15 +39,19 @@ export default function Articles() {
             <h1 className="text-4xl font-bold">Article Archive</h1>
           </div>
           <p className="text-xl text-muted-foreground max-w-3xl">
-            Explore our complete collection of articles on geocomputation, remote sensing, and their intersections with history, economics, and society.
+            Explore our complete collection of articles on geocomputation, remote sensing,
+            and their intersections with history, economics, and society.
           </p>
         </div>
       </div>
 
+      {/* Content Section */}
       <div className="container mx-auto max-w-7xl px-4 py-12">
+        {/* Filters and View Modes */}
         <div className="mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          {/* Category filters */}
           <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
+            {allCategories.map((category) => (
               <Badge
                 key={category}
                 variant={selectedCategory === category ? "default" : "outline"}
@@ -48,6 +64,7 @@ export default function Articles() {
             ))}
           </div>
 
+          {/* View mode toggle */}
           <div className="flex gap-2">
             <Button
               variant={viewMode === "grid" ? "default" : "outline"}
@@ -82,41 +99,61 @@ export default function Articles() {
           </div>
         </div>
 
+        {/* Grid View */}
         {viewMode === "grid" && (
           <>
             <div className="mb-4 text-sm text-muted-foreground">
-              Showing {filteredPosts.length} article{filteredPosts.length !== 1 ? "s" : ""}
+              Showing {filteredPosts.length} article
+              {filteredPosts.length !== 1 ? "s" : ""}
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {filteredPosts.map((post) => (
-                <PostCard key={post.id} {...post} />
-              ))}
-            </div>
-
-            {filteredPosts.length === 0 && (
+            {filteredPosts.length === 0 ? (
               <div className="text-center py-16 text-muted-foreground">
                 No articles found in this category.
+              </div>
+            ) : (
+              <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {filteredPosts.map((post) => (
+                  <PostCard key={post.id} {...post} />
+                ))}
               </div>
             )}
           </>
         )}
 
+        {/* Timeline View */}
         {viewMode === "timeline" && (
           <div className="mb-8">
-            <div className="mb-6 text-sm text-muted-foreground">
-              Articles arranged chronologically by their time period
-            </div>
-            <TimelineView />
+            {filteredPosts.length === 0 ? (
+              <div className="text-center py-16 text-muted-foreground">
+                No articles found in this category.
+              </div>
+            ) : (
+              <>
+                <div className="mb-6 text-sm text-muted-foreground">
+                  Articles arranged chronologically by their time period
+                </div>
+                <TimelineView posts={filteredPosts} />
+              </>
+            )}
           </div>
         )}
 
+        {/* Network View */}
         {viewMode === "network" && (
           <div className="mb-8">
-            <div className="mb-6 text-sm text-muted-foreground">
-              Explore relationships between articles as an interactive network
-            </div>
-            <CognitiveMap />
+            {filteredPosts.length === 0 ? (
+              <div className="text-center py-16 text-muted-foreground">
+                No articles found in this category.
+              </div>
+            ) : (
+              <>
+                <div className="mb-6 text-sm text-muted-foreground">
+                  Explore relationships between articles as an interactive network
+                </div>
+                <CognitiveMap posts={filteredPosts} />
+              </>
+            )}
           </div>
         )}
       </div>

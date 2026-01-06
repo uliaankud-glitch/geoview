@@ -1,4 +1,4 @@
-import heroImage from "@assets/generated_images/River_delta_from_orbit_dc4f1993.png";
+import heroImage from "@assets/generated_images/home_hero.png";
 
 export function Hero() {
   return (

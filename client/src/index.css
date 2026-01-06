@@ -373,4 +373,41 @@
   .border.hover-elevate:not(.no-hover-interaction-elevate)::after {
     inset: -1px;
   }
+
+  /* -------------------------------------------------
+   Layering fix: maintain correct stacking order
+   ------------------------------------------------- */
+   /* Map layers — stay behind app UI */
+  .leaflet-container {
+    z-index: 0;
+  }
+
+  .leaflet-pane,
+  .leaflet-map-pane,
+  .leaflet-tile-pane,
+  .leaflet-overlay-pane,
+  .leaflet-shadow-pane,
+  .leaflet-marker-pane {
+      z-index: 1;
+  }
+  
+  /* Popups and tooltips appear above tiles/markers */
+  .leaflet-popup-pane,
+  .leaflet-tooltip-pane {
+      z-index: 20 !important;
+  }
+  
+  /* Keep Leaflet controls (zoom buttons, etc.) visible */
+  .leaflet-control-container {
+      z-index: 30 !important;
+  }
+  
+  /* Your app UI (menu, header, modals) always above everything */
+  header,
+  [data-testid="mobile-menu-panel"],
+  [data-testid="mobile-menu-backdrop"] {
+      z-index: 10000 !important;
+  }
+
+
 }
